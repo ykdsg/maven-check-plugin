@@ -1,0 +1,208 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>com.taobao</groupId>
+        <artifactId>parent</artifactId>
+        <version>1.0.1</version>
+    </parent>
+
+
+    <groupId>com.taobao.ju.maven</groupId>
+    <artifactId>maven-check-plugin</artifactId>
+    <version>1.0.0-SNAPSHOT</version>
+    <packaging>maven-plugin</packaging>
+
+    <description>ju.taobao.com maven project check plugin</description>
+
+    <name>maven-check-plugin Maven Mojo</name>
+    <url>http://maven.apache.org</url>
+
+
+    <developers>
+        <developer>
+            <id>duxing</id>
+            <name>duxing</name>
+            <email>duxing@taobao.com</email>
+            <roles>
+                <role>developer</role>
+            </roles>
+        </developer>
+    </developers>
+
+    <profiles>
+        <profile>
+            <id>product</id>
+            <properties>
+                <filterFile>${user.home}/antx.properties</filterFile>
+            </properties>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+        </profile>
+        <profile>
+            <id>dev</id>
+            <properties>
+                <filterFile>src/main/filter/dev-filter.properties</filterFile>
+            </properties>
+            <activation>
+                <os>
+                    <family>Windows</family>
+                    <arch>x86</arch>
+                </os>
+            </activation>
+        </profile>
+        <profile>
+            <id>dev-64</id>
+            <properties>
+                <filterFile>src/main/filter/dev-filter.properties</filterFile>
+            </properties>
+            <activation>
+                <os>
+                    <family>windows</family>
+                    <arch>amd64</arch>
+                </os>
+            </activation>
+        </profile>
+    </profiles>
+
+    <properties>
+        <java.version>1.6</java.version>
+        <java.encoding>GBK</java.encoding>
+    </properties>
+
+    <build>
+        <finalName>${artifactId}.${version}</finalName>
+        <plugins>
+            <plugin>
+                <artifactId>maven-plugin-plugin</artifactId>
+                <version>2.3</version>
+                <configuration>
+                    <goalPrefix>ju</goalPrefix>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>2.3.2</version>
+                <configuration>
+                    <compilerVersion>${java.version}</compilerVersion>
+                    <source>${java.version}</source>
+                    <target>${java.version}</target>
+                    <encoding>${java.encoding}</encoding>
+                </configuration>
+            </plugin>
+            <plugin>
+                <artifactId>maven-source-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>attach-sources</id>
+                        <goals>
+                            <goal>jar</goal>
+                        </goals>
+                        <configuration>
+                            <finalName>${artifactId}.${version}</finalName>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-war-plugin</artifactId>
+                <configuration>
+                    <webappDirectory>${warExplodedDirectory}</webappDirectory>
+                    <webResources>
+                        <resource>
+                            <filtering>true</filtering>
+                            <directory>src/main/webapp/WEB-INF</directory>
+                            <targetPath>WEB-INF</targetPath>
+                        </resource>
+                    </webResources>
+                </configuration>
+            </plugin>
+
+<!--            <plugin>
+                <groupId>com.taobao.ju.maven</groupId>
+                <artifactId>maven-check-plugin</artifactId>
+                <configuration>
+                    <greeting>test</greeting>
+                    <ctrlProject>
+                        <groupId>com.taobao.ju</groupId>
+                        <artifactId>ju-common</artifactId>
+                        <version>1.0.10</version>
+                    </ctrlProject>
+                    </configuration>
+            </plugin>-->
+
+        </plugins>
+    </build>
+
+    <dependencies>
+        <dependency>
+            <groupId>org.apache.maven</groupId>
+            <artifactId>maven-plugin-api</artifactId>
+            <version>2.0</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.maven</groupId>
+            <artifactId>maven-project</artifactId>
+            <version>2.0.6</version>
+        </dependency>
+        <dependency>
+            <groupId>org.codehaus.plexus</groupId>
+            <artifactId>plexus-interpolation</artifactId>
+            <version>1.7</version>
+        </dependency>
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>3.8.1</version>
+            <scope>test</scope>
+        </dependency>
+
+        <!--logging-->
+        <dependency>
+            <groupId>com.alibaba.toolkit</groupId>
+            <artifactId>toolkit-common-logging</artifactId>
+            <version>1.0</version>
+        </dependency>
+
+        <dependency>
+            <groupId>commons-logging</groupId>
+            <artifactId>commons-logging</artifactId>
+            <version>1.1</version>
+        </dependency>
+
+
+        <dependency>
+            <groupId>com.alibaba</groupId>
+            <artifactId>fastjson</artifactId>
+            <version>1.1.14</version>
+        </dependency>
+
+
+        <!-- 以下测试用 -->
+
+        <dependency>
+            <groupId>net.sf.json-lib</groupId>
+            <artifactId>json-lib</artifactId>
+            <version>2.2</version>
+            <classifier>jdk15</classifier>
+        </dependency>
+
+        <!--unit test-->
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>4.5</version>
+            <scope>test</scope>
+        </dependency>
+
+
+    </dependencies>
+
+
+
+</project>
